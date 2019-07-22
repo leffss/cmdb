@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+  {% block title %}
+  <title>硬件资产详细</title>
+  {% endblock title %}
+  
+		  {% block leftnav %}
+          <li class="nav-item">
+            <a href="{% url 'assets:index' %}" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                仪表盘
+              </p>
+            </a>
+          </li>
+		  
+		  <li class="nav-item">
+            <a href="{% url 'assets:hardware' %}" class="nav-link active">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                硬件资产
+              </p>
+            </a>
+          </li>
+		  
+		  <li class="nav-item">
+            <a href="{% url 'assets:software' %}" class="nav-link">
+              <i class="nav-icon far fa-credit-card"></i>
+              <p>
+                软件资产
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                日志审计
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'login:audit_login' %}" class="nav-link">
+                  <i class="fas fa-user-edit nav-icon"></i>
+                  <p>用户日志</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
+                  <i class="fas fa-wrench nav-icon"></i>
+                  <p>操作日志</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+		  {% endblock leftnav %}
+
+
+    {% block navheader %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>硬件资产详细: {{ asset.name }} - {{ asset.sn }}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'assets:index' %}">首页</a></li>
+			  <li class="breadcrumb-item"><a href="{% url 'assets:hardware' %}">硬件资产列表</a></li>
+              <li class="breadcrumb-item active">{{ asset.name }}</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+	{% endblock navheader %}
+			
+		  {% block content %}
+          <div class="card">
+            <div class="card-body">
+			  <div class="row">
+				  <div class="col-12 p-1"><h4>基本信息</h4></div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">资产ID：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.id }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">资产类型：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.get_asset_type_display }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">名称：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.name }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">SN序列号：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.sn }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">管理IP：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.manage_ip }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">业务线：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.business_unit }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">机房：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.idc }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">设备状态：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.get_status_display }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">标签：</div>
+				  <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">
+					{% for tag in asset.tags.all %}
+                        <span class="label label-primary">{{ tag.name }}</span>&nbsp;&nbsp;
+					{% endfor %}
+				  </div>
+				  <div class="col-12 p-1 mt-3"><h4>其他信息</h4></div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">制造商：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.manufacturer }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">创建日期：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.c_time }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">更新日期：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.m_time }}</div>
+				  
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">合同：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.contract.name }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">价格：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.price }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">购买日期：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.purchase_day }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">过保日期：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.expire_day }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">管理员：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.admin }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">批准人：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.approved_by }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">批准日期：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.m_time }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">备注：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.memo }}</div>
+				  <div class="col-12 p-1 mt-3"><h4>配置信息</h4></div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">服务器类型：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.get_sub_asset_type_display }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">型号：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.model }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">宿主机：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.hosted_on.id }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">Raid类型：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.raid_type }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">OS类型：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.os_type }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">OS发行版本：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.os_distribution }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">OS版本：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.os_release }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">添加方式：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.server.get_created_by_display }}</div>		  
+				  
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">CPU型号：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.cpu.cpu_model }}</div>
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">物理CPU个数：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.cpu.cpu_count }}</div>	
+				  <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">CPU核数：</div><div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ asset.cpu.cpu_core_count }}</div>
+				  
+				  
+			  </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+		  {% endblock content %}
