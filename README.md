@@ -15,6 +15,20 @@ python manage.py runserver
 账号： admin     密码：123456
 
 
+# 效果
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/1.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/2.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/3.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/4.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/5.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/6.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/7.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/8.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/9.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/10.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/11.PNG?raw=true)
+
+
 # TODO
 - [x] dashbord
 - [x] 用户登陆
