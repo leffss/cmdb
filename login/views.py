@@ -121,5 +121,7 @@ def change_passwd(request):
 def user_info(request):
     username = request.session.get('username')
     user = User.objects.filter(username=username).values('id', 'username', 'nickname', 'email', 'sex', 'status', 'create_time')
-    return JsonResponse({"code": 200, "user": user[0]})
+    user_info = dict(user[0])
+    user_info['create_time'] = user[0]['create_time'].strftime('%Y/%m/%d %H:%M:%S')
+    return JsonResponse({"code": 200, "user": user_info})
 

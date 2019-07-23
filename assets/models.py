@@ -204,6 +204,8 @@ class Software(models.Model):
     license_num = models.IntegerField(default=1, verbose_name="授权数量")
     version = models.CharField(max_length=64, unique=True, help_text='例如: RedHat release 7 (Final)',
                                verbose_name='软件/系统版本')
+    c_time = models.DateTimeField(auto_now_add=True, verbose_name='批准日期')
+    m_time = models.DateTimeField(auto_now=True, verbose_name='更新日期')
 
     def __str__(self):
         return '%s--%s' % (self.get_sub_asset_type_display(), self.version)

@@ -78,39 +78,45 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">操作日志</h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="assets-lists" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>序号</th>
 				  <th>事件名称</th>
 				  <th>资产</th>
 				  <th>事件类型</th>
 				  <th>事件子项</th>
 				  <th>事件详情</th>
-				  <th>事件时间</th>
 				  <th>事件执行人</th>
 				  <th>IP地址</th>
 				  <th>User-Agent</th>
 				  <th>备注</th>
+				  <th>事件时间</th>
                 </tr>
                 </thead>
                 <tbody>
 				{% for event in events %}
                 <tr>
-                  <td>{{ forloop.counter }}</td>
 				  <td>{{ event.name }}</td>
 				  <td>{{ event.asset }}</td>
 				  <td>{{ event.get_event_type_display }}</td>
 				  <td>{{ event.component }}</td>
 				  <td>{{ event.detail }}</td>
-				  <td>{{ event.date }}</td>
 				  <td>{{ event.user }}</td>
 				  <td>{{ event.address }}</td>
 				  <td>{{ event.useragent }}</td>
 				  <td>{{ event.memo }}</td>
+				  <td>{{ event.date|date:"Y/m/d H:m:s" }}</td>
                 </tr>
 				{% empty %}
                 <tr>没有数据！</tr>
@@ -118,17 +124,16 @@
                 </tbody>
                 <tfoot>
                 <tr>
-				  <th>序号</th>
 				  <th>事件名称</th>
 				  <th>资产</th>
 				  <th>事件类型</th>
 				  <th>事件子项</th>
 				  <th>事件详情</th>
-				  <th>事件时间</th>
 				  <th>事件执行人</th>
 				  <th>IP地址</th>
 				  <th>User-Agent</th>
 				  <th>备注</th>
+				  <th>事件时间</th>
                 </tr>
                 </tfoot>
               </table>

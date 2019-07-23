@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Asset, Software, Server, NetworkDevice, StorageDevice, SecurityDevice, EventLog
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, get_list_or_404
+from .forms import SoftwareForm
 # from django.contrib.auth.decorators import login_required
 from util.tool import login_required, post_required
 # Create your views here.
@@ -50,6 +51,13 @@ def delete_hardware_assets(request):
 
 
 @login_required
+@post_required
+def add_hardware_assets(request):
+    pass
+    return JsonResponse({"code": 200, "err": ""})
+    
+
+@login_required
 def software_assets(request):
     # assets = get_list_or_404(Asset)
     assets = Software.objects.all()
@@ -64,8 +72,27 @@ def delete_software_assets(request):
     asset = get_object_or_404(Software, pk=pk)
     asset.delete()
     return JsonResponse({"code": 200, "err": ""})
-    
-    
+
+
+@login_required
+@post_required
+def add_software_assets(request):
+    softwareform = SoftwareForm(request.POST)
+    if softwareform.is_valid():
+        if Software.objects.filter(version=softwareform.cleaned_data.get('version')).count() > 0:
+            error_message = '{} 已存在!'.format(softwareform.cleaned_data.get('version'))
+            return JsonResponse({"code": 400, "err": error_message})
+        software = Software()
+        software.sub_asset_type = int(softwareform.cleaned_data.get('subassettype'))
+        software.license_num = int(softwareform.cleaned_data.get('licensenum'))
+        software.version = softwareform.cleaned_data.get('version')
+        software.save()
+        return JsonResponse({"code": 200, "err": ""})
+    else:
+        error_message = '请检查填写的内容!'
+        return JsonResponse({"code": 401, "err": error_message})
+
+
 @login_required
 def detail(request, asset_id):
     # assets = get_list_or_404(Asset)

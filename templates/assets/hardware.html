@@ -80,14 +80,21 @@
 		  {% block content %}
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">硬件资产列表</h3>
+              <h3 class="card-title">硬件资产列表<a href="javascript:void(0)" class="btn btn-sm btn-info ml-3">新增 + </a></h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="assets-lists" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>序号</th>
 				  <th>资产类型</th>
 				  <th>子类型</th>
 				  <th>资产名称</th>
@@ -104,8 +111,6 @@
                 <tbody>
 				{% for asset in assets %}
                 <tr id="asset-{{ asset.id }}">
-                  <td>{{ forloop.counter }}</td>
-				  
                   {% if asset.asset_type == 'server' %}
                       <td class="text-bold" style="color:green;">{{ asset.get_asset_type_display }}</td>
                       <td>{{ asset.server.get_sub_asset_type_display }}</td>
@@ -162,7 +167,6 @@
                 </tbody>
                 <tfoot>
                 <tr>
-				  <th>序号</th>
 				  <th>资产类型</th>
 				  <th>子类型</th>
 				  <th>资产名称</th>
@@ -295,7 +299,8 @@
 					},
 					"destroy": true,	// 允许重建
 					"bProcessing":true,  // 表格数据过多处理时显示: sProcessing
-					"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "全部"]],
+					"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+					"order": [],
 				});
 				
 				// 关闭弹出框

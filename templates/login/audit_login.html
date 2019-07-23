@@ -78,13 +78,20 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">登陆日志</h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="assets-lists" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>序号</th>
 				  <th>用户名,昵称</th>
 				  <th>事件类型</th>
 				  <th>事件详情</th>
@@ -102,13 +109,12 @@
 				style="color:green;"
 				{% endif %}
 				>
-                  <td>{{ forloop.counter }}</td>
 				  <td>{{ event.user }}</td>
 				  <td>{{ event.get_event_type_display }}</td>
 				  <td>{{ event.detail }}</td>
 				  <td>{{ event.address }}</td>
 				  <td>{{ event.useragent }}</td>
-				  <td>{{ event.create_time }}</td>
+				  <td>{{ event.create_time|date:"Y/m/d H:m:s" }}</td>
                 </tr>
 				{% empty %}
                 <tr>没有数据！</tr>
@@ -116,7 +122,6 @@
                 </tbody>
                 <tfoot>
                 <tr>
-				  <th>序号</th>
 				  <th>用户名,昵称</th>
 				  <th>事件类型</th>
 				  <th>事件详情</th>

@@ -77,27 +77,37 @@
 		  {% block content %}
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">软件资产列表</h3>
+              <h3 class="card-title">软件资产列表<a href="javascript:void(0)" class="btn btn-sm btn-info ml-3 addsoft">新增 + </a></h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="assets-lists" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>序号</th>
 				  <th>软件类型</th>
 				  <th>软件/系统版本</th>
 				  <th>授权数量</th>
+				  <th>添加日期</th>
+				  <th>更新日期</th>
 				  <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
 				{% for asset in assets %}
                 <tr id="asset-{{ asset.id }}">
-                  <td>{{ forloop.counter }}</td>
 				  <td>{{ asset.get_sub_asset_type_display }}</td>
 				  <td>{{ asset.version }}</td>
 				  <td>{{ asset.license_num }}</td>
+				  <td>{{ asset.c_time|date:"Y/m/d H:m:s" }}</td>
+				  <td>{{ asset.m_time|date:"Y/m/d H:m:s" }}</td>
 				  <td>
 					<a href="#">修改</a> 
 					<a href="javascript:void(0);" id="{{ asset.id }}" onclick="createmodal(this);" title="{{ asset.get_sub_asset_type_display }},{{ asset.version }}">删除</a>
@@ -109,10 +119,11 @@
                 </tbody>
                 <tfoot>
                 <tr>
-				  <th>序号</th>
 				  <th>软件类型</th>
 				  <th>软件/系统版本</th>
 				  <th>授权数量</th>
+				  <th>添加日期</th>
+				  <th>更新日期</th>
 				  <th>操作</th>
                 </tr>
                 </tfoot>
@@ -126,12 +137,59 @@
 		  	<!--删除确认窗口-->
 			<div id="modal-container">
 			</div>
+			
+			<!--新增软件资产窗口-->
+			<div id="modal-addsoft" class="iziModal">
+				<form role="form" method="POST" onsubmit="addsoft(this);return false;" class="form-inline">
+					{% csrf_token %}
+					<div class="container-fluid">
+						<div class="row p-3">
+						  <div class="col-12 mb-3">
+							<h4><strong>新增软件资产</strong></h4>
+						  </div>
+						  <div class="col-4 mb-3">
+							<label class="float-right">软件类型:</label>
+						  </div>
+						  <div class="col-8 mb-3">
+							  <select class="form-control" name="subassettype" style="width: 100%;">
+								<option selected="selected">操作系统</option>
+								<option>办公\开发软件</option>
+								<option>业务软件</option>
+							  </select>
+						  </div>
+						  
+						  <div class="col-4 mb-3">
+							<label class="float-right">授权数量:</label>
+						  </div>
+						  <div class="col-8 mb-3">
+							<input type="number" class="form-control" name="licensenum" maxlength="256" value=1 required style="width: 100%;">
+						  </div>
+							
+						  <div class="col-4 mb-3">
+							<label class="float-right">软件/系统版本:</label>
+						  </div>
+						  <div class="col-8 mb-3">
+							<input type="text" class="form-control" name="version" maxlength="256" required style="width: 100%;">
+						  </div>
+						  
+						  <div class="col-6 pl-3 pr-3">
+							<button type="button" class="btn btn-block btn-secondary btn-flat" data-iziModal-close>取消</button>
+						  </div>
+						  <div class="col-6 pl-3 pr-3">
+							<button type="submit" class="btn btn-block btn-success btn-flat" onclick="javascript:void(0);">新增</button>
+						  </div>
+						</div>
+					</div>
+			  </form>
+			</div>
+			
 		  
 		  {% endblock content %}
 
 {% block js %}
-<!-- 删除 -->
+
 <script>
+	// 删除
 	createmodal = function (event) {
 		var thisObj = $(event);	//js对象转jquery对象  
 		var asset_id = thisObj.attr('id');
@@ -238,7 +296,8 @@
 					},
 					"destroy": true,	// 允许重建
 					"bProcessing":true,  // 表格数据过多处理时显示: sProcessing
-					"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "全部"]],
+					"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+					"order": [],
 				});
 				
 				// 关闭弹出框
@@ -248,6 +307,92 @@
 				toastr.success('成功删除 <' + asset_name + '>');
 			}
 		};
+	}
+	
+	// 新增软件资产
+	$("#modal-addsoft").iziModal({
+		iconClass: 'icon-announcement',
+		//width: 400,
+		padding: 10,
+		overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+		closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+	});
+	$(document).on('click', '.addsoft', function (event) {
+		event.preventDefault();
+		$('#modal-addsoft').iziModal('open');
+	});
+	
+	addsoft = function(event) {
+		toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 4000;	
+		toastr.options.extendedTimeOut = 0;	
+		try {
+		var thisObj = $(event);	//js对象转jquery对象
+		var subassettype = $(thisObj.find("select[name='subassettype'] option:selected")[0]).val();
+		var subassettype_tmp = subassettype;
+		if (subassettype == "操作系统") {
+			subassettype = 0;
+		} else if (subassettype == "办公\\开发软件") {
+			subassettype = 1;
+		} else if (subassettype == "业务软件") {
+			subassettype = 2;
+		}
+		var licensenum = $(thisObj.find("input[name='licensenum']")[0]).val();
+		var version = $(thisObj.find("input[name='version']")[0]).val();
+		csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		
+		$.ajax({
+			url: "{% url 'assets:software_add' %}",
+			async: true,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				'csrfmiddlewaretoken': csrfmiddlewaretoken,
+				'subassettype': subassettype,
+				'licensenum': licensenum,
+				'version': version,
+			},
+			timeout: 10000,
+			cache: true,
+			beforeSend: LoadFunction, //加载执行方法
+			error: errFunction,  //错误执行方法
+			success: succFunction, //成功执行方法
+		});
+		
+		function LoadFunction() {
+			//$("#aboutcontent").html('删除中...');
+			//alert('删除中');
+		};
+		
+		function errFunction() {
+			// 消息框
+			toastr.error('新增软件资产错误');
+		};
+		
+		function succFunction(res) {
+			if (res.code != 200) {
+				// 消息框
+				toastr.error('新增软件资产错误: ' + res.err);
+			} else {
+				// 消息框
+				toastr.success('新增软件资产成功');
+				var dttable = $('#assets-lists').DataTable();
+				var rowNode = dttable.row.add([subassettype_tmp, version, licensenum, GetDate(2), GetDate(2), '修改 删除']).draw().node();
+				//$(rowNode).css('color', 'red').animate({color: 'black'});
+			}
+		};
+		
+		// 关闭弹出框
+		$("#modal-addsoft").iziModal('close');
+		$(thisObj.find("input[name='licensenum']")[0]).val('1');
+		$(thisObj.find("input[name='version']")[0]).val('');
+		} catch(err) {
+		console.log(err);
+		}
+		return false;
 	}
 	
 </script>

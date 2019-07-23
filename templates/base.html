@@ -34,6 +34,10 @@
   <!-- Toastr -->
   <link rel="stylesheet" href="{% static 'adminlte/plugins/toastr/toastr.min.css' %}">
   
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/select2/css/select2.min.css' %}">
+  
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <!-- Site wrapper -->
@@ -103,6 +107,7 @@
 		<form role="form" method="POST" onsubmit="changepasswd(this);return false;">
 			{% csrf_token %}
 			<div class="card-body">
+			  <h4 class="mb-3"><strong>修改密码</strong></h4>
 			  <div class="form-group">
 				<label>当前密码</label>
 				<input type="password" class="form-control" name="oldpasswd"  placeholder="Password" maxlength="256" required>
@@ -260,7 +265,8 @@
 		},
 		"destroy": true,	// 允许重建
 		"bProcessing":true,  // 表格数据过多处理时显示: sProcessing
-		"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "全部"]],
+		"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+		"order": [],
 	});
 		
   });
@@ -282,9 +288,52 @@
 <!-- Toastr -->
 <script src="{% static 'adminlte/plugins/toastr/toastr.min.js' %}"></script>
 
+<!-- Select2 -->
+<script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
+
 <!-- 弹出框插件 -->
 <script src="{% static 'js/iziModal.min.js' %}"></script>
 <script>
+	function GetDate(format) {
+		 /**
+		 * format=1表示获取年月日
+		 * format=0表示获取年月日时分秒
+		 * **/
+		 var now = new Date();
+		 var year = now.getFullYear();
+		 var month = now.getMonth()+1;
+		 if (month < 10) {
+			month = "0" + month
+		 }
+		 var date = now.getDate();
+		 if (date < 10) {
+			date = "0" + date
+		 }
+		 
+		 var day = now.getDay();//得到周几
+		 var hour = now.getHours();//得到小时
+		 if (hour < 10) {
+			hour = "0" + hour
+		 }
+		 var minu = now.getMinutes();//得到分钟
+		 if (minu < 10) {
+			minu = "0" + minu
+		 }
+		 var sec = now.getSeconds();//得到秒
+		 if (sec < 10) {
+			sec = "0" + sec
+		 }
+		 
+		 if (format==1){
+			 _time = year+"/"+month+"/"+date
+		}
+		else if (format==2){
+			_time = year+"/"+month+"/"+date+" "+hour+":"+minu+":"+sec
+		}
+		return _time
+	}
+
+
 	$("#modal-login").iziModal({
 		//title: "退出",
 		//subtitle: "确认退出",
@@ -423,7 +472,7 @@
 				}
 				var create_time = res.user.create_time
 				$("#modal-userinfo-container").html('<div id="modal-userinfo" class="iziModal"><div class="row p-4">\
-													 <div class="col-12 mb-2"><h5><strong>个人信息</strong></h5></div>\
+													 <div class="col-12 mb-2"><h4><strong>个人信息</strong></h4></div>\
 													 <div class="col-4 mb-1 border-bottom">用户ID: </div><div class="col-8 mb-1 border-bottom">' + userid + '</div>\
 													 <div class="col-4 mb-1 border-bottom">用户名: </div><div class="col-8 mb-1 border-bottom">' + username + '</div>\
 													 <div class="col-4 mb-1 border-bottom">用户昵称: </div><div class="col-8 mb-1 border-bottom">' + nickname + '</div>\
@@ -431,7 +480,7 @@
 													 <div class="col-4 mb-1 border-bottom">用户性别: </div><div class="col-8 mb-1 border-bottom">' + sex + '</div>\
 													 <div class="col-4 mb-1 border-bottom">用户状态: </div><div class="col-8 mb-1 border-bottom">' + status + '</div>\
 													 <div class="col-4 mb-1 border-bottom">用户创建时间: </div><div class="col-8 mb-1 border-bottom">' + create_time + '</div>\
-													 <div class="col-12 mt-2"><button type="button" class="btn btn-block btn-success btn-flat" data-iziModal-close>返回</button></div>\
+													 <div class="col-12 mt-3"><button type="button" class="btn btn-block btn-success btn-flat" data-iziModal-close>返回</button></div>\
 													 </div></div>');
 			}
 		};
