@@ -72,13 +72,6 @@ def logout(request):
 
 
 @login_required
-def audit_login(request):
-    # assets = get_list_or_404(Asset)
-    events = LoginLog.objects.all()
-    return render(request, 'login/audit_login.html', locals())
-
-
-@login_required
 @post_required
 def change_passwd(request):
     changepasswd_form = ChangePasswdForm(request.POST)

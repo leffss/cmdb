@@ -393,12 +393,9 @@ class EventLog(models.Model):
     name = models.CharField('事件名称', max_length=128)
     event_type_choice = (
         (0, '其它'),
-        (1, '硬件变更'),
-        (2, '新增配件'),
-        (3, '设备下线'),
-        (4, '设备上线'),
-        (5, '定期维护'),
-        (6, '业务上线\更新\变更'),
+        (1, '新增资产'),
+        (2, '修改资产'),
+        (3, '删除资产'),
     )
     asset = models.ForeignKey('Asset', blank=True, null=True, on_delete=models.SET_NULL)  # 当资产审批成功时有这项数据
     new_asset = models.ForeignKey('NewAssetApprovalZone', blank=True, null=True, on_delete=models.SET_NULL)  # 当资产审批失败时有这项数据

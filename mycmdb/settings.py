@@ -141,5 +141,5 @@ AUTH_USER_MODEL = 'users.User'
 # LOGIN_REDIRECT_URL = '/'
 
 # session 如果在此期间未做任何操作，则退出， django 本身要么设置固定时间，要么关闭浏览器失效
-CUSTOM_SESSION_EXIPRY_TIME = 60 * 15    # 15 分钟
+CUSTOM_SESSION_EXIPRY_TIME = 60 * 360    # 15 分钟
 

@@ -14,5 +14,6 @@ urlpatterns = [
     path('software/add/', views.add_software_assets, name='software_add'),
     path('detail/<int:asset_id>/', views.detail, name='detail'),
     path('audit/operation/', views.operation, name='operation'),
+    path('audit/login/', views.audit_login, name='audit_login'),
 ]
 

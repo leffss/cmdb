@@ -28,6 +28,7 @@ python manage.py runserver
 ![效果](https://github.com/leffss/cmdb/blob/master/screenshots/10.PNG?raw=true)
 ![效果](https://github.com/leffss/cmdb/blob/master/screenshots/11.PNG?raw=true)
 ![效果](https://github.com/leffss/cmdb/blob/master/screenshots/12.PNG?raw=true)
+![效果](https://github.com/leffss/cmdb/blob/master/screenshots/13.PNG?raw=true)
 
 # TODO
 - [x] dashbord
@@ -47,5 +48,5 @@ python manage.py runserver
 - [ ] 搜索资产
 - [ ] 自动更新资产信息
 - [x] 用户日志审计
-- [ ] 操作日志审计
+- [x] 操作日志审计
 - [ ] 所有表单数据验证

@@ -43,7 +43,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'login:audit_login' %}" class="nav-link">
+                <a href="{% url 'assets:audit_login' %}" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>用户日志</p>
                 </a>
@@ -61,12 +61,9 @@
     {% block navheader %}
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>硬件资产列表</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'assets:index' %}">首页</a></li>
               <li class="breadcrumb-item active">硬件资产列表</li>
             </ol>
@@ -297,10 +294,15 @@
 							"sSortDescending": ": 以降序排列此列"
 						}
 					},
-					"destroy": true,	// 允许重建
-					"bProcessing":true,  // 表格数据过多处理时显示: sProcessing
-					"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
-					"order": [],
+					destroy: true,	// 允许重建
+					bProcessing:true,  // 表格数据过多处理时显示: sProcessing
+					lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+					order: [],
+					 scrollY: 480,	// 滚动条
+					 scrollCollapse: true,
+					 jQueryUI: true,
+					 stateSave: true,	// 保存最后一次分页信息、排序信息，当页面刷新，或者重新进入这个页面，恢复上次的状态。
+					 stateDuration: 86400,	// 本地储存(0~更大)还是session储存(-1) 
 				});
 				
 				// 关闭弹出框

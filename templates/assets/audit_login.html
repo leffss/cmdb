@@ -41,13 +41,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'assets:audit_login' %}" class="nav-link">
+                <a href="{% url 'assets:audit_login' %}" class="nav-link active">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>用户日志</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'assets:operation' %}" class="nav-link active">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
                   <i class="fas fa-wrench nav-icon"></i>
                   <p>操作日志</p>
                 </a>
@@ -63,7 +63,7 @@
           <div class="col-12">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'assets:index' %}">首页</a></li>
-              <li class="breadcrumb-item active">操作日志</li>
+              <li class="breadcrumb-item active">登陆日志</li>
             </ol>
           </div>
         </div>
@@ -74,7 +74,7 @@
 		  {% block content %}
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">操作日志</h3>
+              <h3 class="card-title">登陆日志</h3>
 				<div class="card-tools">
 				  <button type="button" class="btn btn-tool" data-widget="collapse">
 					<i class="fas fa-minus"></i>
@@ -89,31 +89,29 @@
               <table id="assets-lists" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>事件名称</th>
-				  <th>资产</th>
+				  <th>用户名,昵称</th>
 				  <th>事件类型</th>
-				  <th>事件子项</th>
 				  <th>事件详情</th>
-				  <th>事件执行人</th>
 				  <th>IP地址</th>
-				  <th>User-Agent</th>
-				  <th>备注</th>
+				  <th>User_Agent</th>
 				  <th>事件时间</th>
                 </tr>
                 </thead>
                 <tbody>
 				{% for event in events %}
-                <tr>
-				  <td>{{ event.name }}</td>
-				  <td>{{ event.asset }}</td>
-				  <td>{{ event.get_event_type_display }}</td>
-				  <td>{{ event.component }}</td>
-				  <td>{{ event.detail }}</td>
+                <tr 
+				{% if event.event_type == 3 or event.event_type == 4 %}
+				style="color:red;"
+				{% elif event.event_type == 1 or event.event_type == 5 %}
+				style="color:green;"
+				{% endif %}
+				>
 				  <td>{{ event.user }}</td>
+				  <td>{{ event.get_event_type_display }}</td>
+				  <td>{{ event.detail }}</td>
 				  <td>{{ event.address }}</td>
 				  <td>{{ event.useragent }}</td>
-				  <td>{{ event.memo }}</td>
-				  <td>{{ event.date|date:"Y/m/d H:m:s" }}</td>
+				  <td>{{ event.create_time|date:"Y/m/d H:m:s" }}</td>
                 </tr>
 				{% empty %}
                 <tr>没有数据！</tr>
@@ -121,15 +119,11 @@
                 </tbody>
                 <tfoot>
                 <tr>
-				  <th>事件名称</th>
-				  <th>资产</th>
+				  <th>用户名,昵称</th>
 				  <th>事件类型</th>
-				  <th>事件子项</th>
 				  <th>事件详情</th>
-				  <th>事件执行人</th>
 				  <th>IP地址</th>
-				  <th>User-Agent</th>
-				  <th>备注</th>
+				  <th>User_Agent</th>
 				  <th>事件时间</th>
                 </tr>
                 </tfoot>

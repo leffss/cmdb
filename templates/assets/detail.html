@@ -43,7 +43,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'login:audit_login' %}" class="nav-link">
+                <a href="{% url 'assets:audit_login' %}" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>用户日志</p>
                 </a>
@@ -62,12 +62,9 @@
     {% block navheader %}
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>硬件资产详细: {{ asset.name }} - {{ asset.sn }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'assets:index' %}">首页</a></li>
 			  <li class="breadcrumb-item"><a href="{% url 'assets:hardware' %}">硬件资产列表</a></li>
               <li class="breadcrumb-item active">{{ asset.name }}</li>
@@ -80,14 +77,18 @@
 			
 		  {% block content %}
           <div class="card">
-			<div class="card-tools mt-2 mr-4">
-			  <button type="button" class="btn btn-tool float-right ml-1" data-widget="remove">
-				<i class="fas fa-times"></i>
-			  </button>
-			  <button type="button" class="btn btn-tool float-right" data-widget="collapse">
-				<i class="fas fa-minus"></i>
-			  </button>
-			</div>
+			<div class="card-header">
+              <h3 class="card-title">{{ asset.name }} - {{ asset.sn }}</h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div>
+            </div>
+			
             <div class="card-body">
 			  <div class="row">
 				  <div class="col-12 p-1"><h4>基本信息</h4></div>
